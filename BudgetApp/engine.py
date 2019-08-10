@@ -22,6 +22,7 @@ ginasios = ['GCD-BARCELONA', 'MCFIT', 'LEISURE ORGANIZATION', 'GESTORA CLUBS DIR
 internet = ['PEPEPHONE']
 electricidade = 'ENDESA'
 
+
 def auth():
     return pygsheets.authorize(service_file='BudgetLogin.json')
 
