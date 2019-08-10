@@ -15,6 +15,7 @@ window.geometry("600x250") # size of the window when it opens
                           #window like this
 window.resizable(width="false", height="false") # change to false if you want to prevent resizing
 
+
 # WIDGETS
 frame_header = tk.Frame(window, borderwidth=0, pady=2)
 center_frame = tk.Frame(window, borderwidth=2, pady=5)
