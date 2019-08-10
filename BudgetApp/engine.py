@@ -15,7 +15,6 @@ import numpy.random.common
 import numpy.random.bounded_integers
 import numpy.random.entropy
 
-
 supermercados = ['BON AREA', 'MERCADONA', 'DIA', 'VUIT SANT PERE', 'LA NUPA', 'LIDL','SUPERMERCAT']
 renda = 'TEFASA GRUP IMMOBILIARI'
 telemoveis = ['ORANGE', 'CARD RECHARGING']
