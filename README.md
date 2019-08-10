@@ -7,9 +7,9 @@ The analysis is made recuring to pandas, matplotlib and numpy.
 
 The interface is built with tkinter.
 
-![alt-text](budgetapp.PNG "Application preview")
+![alt-text](BudgetApp/budgetapp.PNG "Application preview")
 
-![alt-text](BudgetApp\pdfPage1.PNG "Analysis1")
-![alt-text](BudgetApp\pdfPage2.PNG "Analysis2")
+![alt-text](BudgetApp/pdfPage1.PNG "Analysis1")
+![alt-text](BudgetApp/pdfPage2.PNG "Analysis2")
 
 Future versions will be able to serialize the dataframes so the expenses can be compared to previous months.
