@@ -26,6 +26,9 @@
     <Compile Include="engine.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="serialize.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
