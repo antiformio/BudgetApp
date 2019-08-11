@@ -17,11 +17,11 @@ class Serialization():
 
     def __init__(self):
         self.ACCESS_KEY, self.SECRET_KEY, self.bucket = self.readCredentials()
+        self.s3 = boto3.client('s3', aws_access_key_id=self.ACCESS_KEY , aws_secret_access_key=self.SECRET_KEY)
 
     def AWSupload(self, local_file, bucket, s3_file):
-        s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY, aws_secret_access_key=SECRET_KEY)
         try:
-            s3.upload_file(local_file, bucket, s3_file)
+            self.s3.upload_file(local_file, bucket, s3_file)
             print("Upload Successful")
             return True
         except FileNotFoundError:
@@ -32,9 +32,8 @@ class Serialization():
             return False
 
     def AWSdownload(self):
-        s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY , aws_secret_access_key=SECRET_KEY)
         try:
-            s3.download_file(bucket,'dogs', 'C:\\Users\\fhm\\Desktop\\dogs')
+            self.s3.download_file(self.bucket,'dogs', 'C:\\Users\\fhm\\Desktop\\dogs')
             print("Download Successful")
             return True
         except botocore.exceptions.ClientError as e:
