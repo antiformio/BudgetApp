@@ -99,4 +99,7 @@ gerarPdf = tk.Button(bottom_frame, text="Gerar PDF", command=run, bg='dark green
 
 window.mainloop()
 
+# TODO: list of emails editable (dialog for entering)
+# Serialization (pickle)
+
 
