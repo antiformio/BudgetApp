@@ -21,6 +21,7 @@ telemoveis = ['ORANGE', 'CARD RECHARGING']
 ginasios = ['GCD-BARCELONA', 'MCFIT', 'LEISURE ORGANIZATION', 'GESTORA CLUBS DIR' ]
 internet = ['PEPEPHONE']
 electricidade = 'ENDESA'
+agua = 'AQUALOGY'
 
 
 def auth():
@@ -88,6 +89,9 @@ def cleanEntry(rawList):
 
         elif any(x in entry[1] for x in electricidade):
             entry[1] = 'ELECTRICIDADE'
+
+        elif any(x in entry[1] for x in agua):
+            entry[1] = 'AGUA'
         #Retirar se ficar pouco detalhado...
         # elif entry[1] != '':
         #     entry[1] = 'OUTROS GASTOS'

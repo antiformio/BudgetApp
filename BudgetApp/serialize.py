@@ -22,7 +22,7 @@ class serialization():
     def AWSupload(self, local_file, s3_file):
         try:
             self.s3.upload_file(local_file, self.bucket, s3_file)
-            print("Upload Successful")
+            #print("Upload Successful")
             return True
         except FileNotFoundError:
             print("The file was not found")
@@ -35,7 +35,7 @@ class serialization():
         try:
             #self.s3.download_file(self.bucket,s3_file, 'C:\\Users\\fhm\\Desktop\\dogs')
             self.s3.download_file(self.bucket, s3_fileName, localPath)
-            print("Download Successful")
+            #print("Download Successful")
             return True
         except botocore.exceptions.ClientError as e:
             if e.response['Error']['Code'] == "404":
