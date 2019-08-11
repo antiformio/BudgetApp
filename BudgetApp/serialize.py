@@ -8,7 +8,7 @@ from botocore.exceptions import NoCredentialsError
 class serialization():
     
     def readCredentials(self):
-        with open('s3.json') as f:
+        with open('C:\\Users\\fhm\\source\\repos\\BudgetApp\\BudgetApp\\s3.json') as f:
             data = json.load(f)
         aws_access_key_id = data['ACCESS_KEY']
         aws_secret_access_key = data['SECRET_KEY']
@@ -18,6 +18,20 @@ class serialization():
     def __init__(self):
         self.ACCESS_KEY, self.SECRET_KEY, self.bucket = self.readCredentials()
         self.s3 = boto3.client('s3', aws_access_key_id=self.ACCESS_KEY , aws_secret_access_key=self.SECRET_KEY)
+
+    def dfToFileUpload(self, df, fileName):
+        outfile = open(fileName,'wb')
+        pickle.dump(df,outfile)
+        self.AWSupload(fileName, fileName)
+        outfile.close()
+        os.remove(fileName)
+
+    def fileToDfDownload(self, fileName):
+        self.AWSdownload(fileName, fileName)
+        infile = open(fileName,'rb')
+        new_df = pickle.load(infile)
+        infile.close()
+        return new_df
 
     def AWSupload(self, local_file, s3_file):
         try:

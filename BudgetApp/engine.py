@@ -14,6 +14,7 @@ import os
 import numpy.random.common
 import numpy.random.bounded_integers
 import numpy.random.entropy
+import serialize
 
 supermercados = ['BON AREA', 'MERCADONA', 'DIA', 'VUIT SANT PERE', 'LA NUPA', 'LIDL','SUPERMERCAT']
 renda = 'TEFASA GRUP IMMOBILIARI'
@@ -202,9 +203,21 @@ def run(path, email=None):
         Dataframes to PDF
         
     """
+
     df4maisCaros = dfGastos.nlargest(4, columns=["Valor"])
     dfGastosOrdenados = dfGastos.sort_values('Valor', ascending=False)
     dfGastosTotal = round(dfGastos['Valor'].sum(),2)
+
+    # VER O UPLOAD, NAO ESTA A ESCREVER BEM O FICHEIRO...
+    #saveObj = serialize.serialization()
+    #fileName = 'dfGastosTotal' + str(getMesActual())
+    #saveObj.dfToFileUpload(dfGastosTotal, fileName)
+    #new_df = saveObj.fileToDfDownload(fileName)
+    #
+    #
+    #print(new_df)
+
+
 
     axMaisCaros = render_mpl_table(df4maisCaros, header_columns=0, col_width=6.0)
     figMaisCaros = axMaisCaros.get_figure()
