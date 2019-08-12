@@ -16,7 +16,7 @@ window.geometry("600x200+570+400") # size of the window when it opens
 window.resizable(width="false", height="false") # change to false if you want to prevent resizing
 
 """
-    Tabs
+    Tabs creation
 """
 tab_parent = Notebook(window) 
 tabPdf = tk.Frame(tab_parent)
@@ -24,7 +24,7 @@ tabCompare = tk.Frame(tab_parent)
 
 
 """
-    Widgets
+    Widgets (TAB1) : Frame definition and tabs
 """
 frame_header = tk.Frame(tabPdf, borderwidth=0, pady=2)
 center_frame = tk.Frame(tabPdf, borderwidth=2, pady=5)
@@ -39,25 +39,21 @@ tab_parent.add(tabPdf, text='Gerar Análise')
 tab_parent.add(tabCompare, text='Comparação de gastos')
 
 """
-    Header tab 1
+    Header (TAB1)
 """
 header = tk.Label(frame_header, text = "Budget APP", bg='grey', fg='black', height='3', width='43', font=("Helvetica 17 bold"))
 header.grid(row=0, column=0)
 
 """
-    Center frame division
+    Center frame division (TAB1)
     "pathDestiny" : To store the path variable defined in browseButton later
 """
+### Define center frame division and create variable for path selected
 frame_main_1 = tk.Frame(center_frame, borderwidth=2)
-
 pdfPathLabel = tk.Label(frame_main_1, text = "Destino do PDF: ", font=("Helvetica 9 bold")).pack(side='left')
-
 pathDestiny = tk.StringVar()
 
-"""
-    Browse dialog
-        Saves the path to variable "pathDestiny"
-"""
+### Browsefile dialog
 def browseButton():
     filename = filedialog.askdirectory()
     pathDestiny.set(filename)
@@ -65,10 +61,13 @@ def browseButton():
     tk.Label(frame_main_1, text = filename[:45]).pack(side='left')
     return filename
 
+### Button for calling browse dialog and packing of center frame
 buttonPath = tk.Button(frame_main_1, text="Destino", command=browseButton).pack(side='left')
-
 frame_main_1.pack(fill='x', pady=2)
 
+"""
+    Progress frame(TAB1): contains the progress bar, the close button after PDF generation
+"""
 def closeWindow():
     window.destroy()
 
@@ -94,14 +93,17 @@ def progressBar():
     progress['value'] = 100
     progress.destroy()
     tk.Button(progress_frame, text="Fechar", command=closeWindow, bg='dark red', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
-    
 
+
+    
+"""
+    Main workflow
+"""
 def run():
     window.geometry("600x240")
     if not pathDestiny.get():
         messagebox.showwarning("Informação", "Especifique o caminho de destino do PDF !")
     else:    
-        print(pathDestiny.get())
         result = messagebox.askquestion("E-mail","Pretende enviar email para giovanna.magnante@gmail.com e fjnmgm@gmail.com ?")
         if result == 'yes':
             engine.run(pathDestiny.get().replace('/','\\'), True)
@@ -113,7 +115,10 @@ def run():
             messagebox.showinfo("PDF gerado", f'O PDF foi gerado para {pathDestiny.get()}')
     
 
-gerarPdf = tk.Button(bottom_frame, text="Gerar PDF", command=run, bg='dark green', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
+"""
+    Bottom frame (TAB1): generate PDF button
+"""
+tk.Button(bottom_frame, text="Gerar PDF", command=run, bg='dark green', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
 
 
 tab_parent.pack(expand = 1, fill = 'both')
@@ -139,7 +144,7 @@ frame_main_2 = tk.Frame(center_frame_tab2, borderwidth=2)
 
 ### DropDown menu for frame_main_2
 monthVar = tk.StringVar(window)
-monthVar.set("one")
+#monthVar.set("one")
 optionMonth = OptionMenu(frame_main_2, monthVar, "one", "two", "three").pack(side='right')
 
 ### Label and dropdown menu packed on the same frame
