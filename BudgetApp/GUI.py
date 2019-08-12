@@ -5,7 +5,7 @@ import easygui
 import pandas as pd
 from time import strftime
 import engine
-import time
+import time, serialize
 
 
 window = tk.Tk() 
@@ -144,8 +144,9 @@ frame_main_2 = tk.Frame(center_frame_tab2, borderwidth=2)
 
 ### DropDown menu for frame_main_2
 monthVar = tk.StringVar(window)
-#monthVar.set("one")
-optionMonth = OptionMenu(frame_main_2, monthVar, "one", "two", "three").pack(side='right')
+readFiles = serialize.serialization()
+menuOptions = readFiles.getFilesOnBucket('dfGastos')
+optionMonth = OptionMenu(frame_main_2, monthVar, *menuOptions).pack(side='right') ################################################################## Está a perder opçoes !!!
 
 ### Label and dropdown menu packed on the same frame
 monthLabel = tk.Label(frame_main_2, text = "Seleccione o mês para comparar: ", font=("Helvetica 9 bold")).pack(side='left')
