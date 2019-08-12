@@ -72,8 +72,12 @@ class serialization():
                 raise
     
     """
-        Returns a json with all the files in bucket
+        Returns a list with all the files in bucket (started by 'df')
+            prefixo: 'df' for example, all files starting by 'df'
     """
-    def getFilesOnBucket(self):
-        response = self.s3.list_objects(Bucket = self.bucket, Prefix = 'df')
-        return response['Contents']
+    def getFilesOnBucket(self, prefixo):
+        list = []
+        response = self.s3.list_objects(Bucket = self.bucket, Prefix = prefixo)
+        for elemento in response['Contents']:
+            list.append(elemento['Key'])
+        return list
