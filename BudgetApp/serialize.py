@@ -54,9 +54,5 @@ class serialization():
             else:
                 raise
 
-    
-    
-
-
-
-
+    def getFilesOnBucket(self):
+        return self.s3.list_objects(Bucket = self.bucket, Prefix = 'df')
