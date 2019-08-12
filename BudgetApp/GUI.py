@@ -144,6 +144,7 @@ frame_main_2 = tk.Frame(center_frame_tab2, borderwidth=2)
 
 ### DropDown menu for frame_main_2
 monthVar = tk.StringVar(window)
+################################################# PASSAR PARA O ENGINE... NÃO FAZ SENTIDO SER A GUI A INSTANCIAR O SERIALIZE...
 readFiles = serialize.serialization()
 menuOptions = readFiles.getFilesOnBucket('dfGastos')
 optionMonth = OptionMenu(frame_main_2, monthVar, *menuOptions).pack(side='right') ################################################################## Está a perder opçoes !!!
