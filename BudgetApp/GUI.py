@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from tkinter.ttk import Progressbar, Notebook
+from tkinter.ttk import Progressbar, Notebook, OptionMenu
 import easygui
 import pandas as pd
 from time import strftime
@@ -10,7 +10,7 @@ import time
 
 window = tk.Tk() 
 window.title("BudgetApp") 
-window.geometry("600x200") # size of the window when it opens
+window.geometry("600x200+570+400") # size of the window when it opens
 #window.minsize(width=600, height=600) # you can define the minimum size of the
                           #window like this
 window.resizable(width="false", height="false") # change to false if you want to prevent resizing
@@ -38,22 +38,33 @@ progress_frame.grid(row=3, column=0)
 tab_parent.add(tabPdf, text='Gerar Análise')
 tab_parent.add(tabCompare, text='Comparação de gastos')
 
-
+"""
+    Header tab 1
+"""
 header = tk.Label(frame_header, text = "Budget APP", bg='grey', fg='black', height='3', width='43', font=("Helvetica 17 bold"))
 header.grid(row=0, column=0)
 
+"""
+    Center frame division
+    "pathDestiny" : To store the path variable defined in browseButton later
+"""
 frame_main_1 = tk.Frame(center_frame, borderwidth=2)
 
 pdfPathLabel = tk.Label(frame_main_1, text = "Destino do PDF: ", font=("Helvetica 9 bold")).pack(side='left')
 
-pathDestiny = tk.StringVar() # Para guardar a variavel path que vai ser definida na funçao browseButton
+pathDestiny = tk.StringVar()
 
+"""
+    Browse dialog
+        Saves the path to variable "pathDestiny"
+"""
 def browseButton():
     filename = filedialog.askdirectory()
     pathDestiny.set(filename)
     text = ''
     tk.Label(frame_main_1, text = filename[:45]).pack(side='left')
     return filename
+
 buttonPath = tk.Button(frame_main_1, text="Destino", command=browseButton).pack(side='left')
 
 frame_main_1.pack(fill='x', pady=2)
@@ -108,9 +119,46 @@ gerarPdf = tk.Button(bottom_frame, text="Gerar PDF", command=run, bg='dark green
 tab_parent.pack(expand = 1, fill = 'both')
 
 
+
+
+"""
+    Tab de comparação de gastos
+"""
+frame_header_tab2 = tk.Frame(tabCompare, borderwidth=0, pady=2)
+center_frame_tab2 = tk.Frame(tabCompare, borderwidth=2, pady=5)
+bottom_frame_tab2 = tk.Frame(tabCompare, borderwidth=2, pady=5)
+frame_header_tab2.grid(row=0, column=0)
+center_frame_tab2.grid(row=1, column=0)
+bottom_frame_tab2.grid(row=2, column=0)
+
+header_tab2 = tk.Label(frame_header_tab2, text = "Comparação de gastos", bg='grey', fg='black', height='1', width='43', font=("Helvetica 17 bold"))
+header_tab2.grid(row=0, column=0)
+
+### Frame main 2 to pack label and month dropdown on the same frame
+frame_main_2 = tk.Frame(center_frame_tab2, borderwidth=2)
+
+### DropDown menu for frame_main_2
+monthVar = tk.StringVar(window)
+monthVar.set("one")
+optionMonth = OptionMenu(frame_main_2, monthVar, "one", "two", "three").pack(side='right')
+
+### Label and dropdown menu packed on the same frame
+monthLabel = tk.Label(frame_main_2, text = "Seleccione o mês para comparar: ", font=("Helvetica 9 bold")).pack(side='left')
+frame_main_2.pack(fill='x', pady=2)
+
+"""
+    MainLoop
+"""
 window.mainloop()
 
 # TODO: list of emails editable (dialog for entering)
 # TODO : Fix progressbar stalling
+
+"""
+    V2.0:
+        Serialization : Now we are able to compare total expense from previous months
+        Tabs: New tab for budget comparsion
+        ProgressBar: progress bar to controll PDF generation status
+"""
 
 
