@@ -10,9 +10,9 @@ import time
 
 window = tk.Tk() 
 
-#tab_parent = Notebook(window) 
-#tab1 = tk.Frame(tab_parent)
-#tab2 = tk.Frame(tab_parent)
+tab_parent = Notebook(window) 
+tabPdf = tk.Frame(tab_parent)
+tabCompare = tk.Frame(tab_parent)
 
 
 window.title("BudgetApp") 
@@ -23,14 +23,17 @@ window.resizable(width="false", height="false") # change to false if you want to
 
 
 # WIDGETS
-frame_header = tk.Frame(window, borderwidth=0, pady=2)
-center_frame = tk.Frame(window, borderwidth=2, pady=5)
-bottom_frame = tk.Frame(window, borderwidth=2, pady=5)
-progress_frame = tk.Frame(window, borderwidth=2, pady=5)
+frame_header = tk.Frame(tabPdf, borderwidth=0, pady=2)
+center_frame = tk.Frame(tabPdf, borderwidth=2, pady=5)
+bottom_frame = tk.Frame(tabPdf, borderwidth=2, pady=5)
+progress_frame = tk.Frame(tabPdf, borderwidth=2, pady=5)
 frame_header.grid(row=0, column=0)
 center_frame.grid(row=1, column=0)
 bottom_frame.grid(row=2, column=0)
 progress_frame.grid(row=3, column=0)
+
+tab_parent.add(tabPdf, text='Gerar Análise')
+tab_parent.add(tabCompare, text='Comparação de gastos')
 
 
 header = tk.Label(frame_header, text = "Budget APP", bg='grey', fg='black', height='3', width='43', font=("Helvetica 17 bold"))
@@ -80,7 +83,7 @@ def progressBar():
     
 
 def run():
-    window.geometry("600x230")
+    window.geometry("600x240")
     if not pathDestiny.get():
         messagebox.showwarning("Informação", "Especifique o caminho de destino do PDF !")
     else:    
@@ -99,12 +102,12 @@ def run():
 gerarPdf = tk.Button(bottom_frame, text="Gerar PDF", command=run, bg='dark green', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
 
 
-#tab_parent.pack(expand = 1, fill = 'both')
+tab_parent.pack(expand = 1, fill = 'both')
 
 
 window.mainloop()
 
 # TODO: list of emails editable (dialog for entering)
-# TODO : Serialization (pickle)
+# TODO : Fix progressbar stalling
 
 
