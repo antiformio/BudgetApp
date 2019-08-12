@@ -9,20 +9,23 @@ import time
 
 
 window = tk.Tk() 
-
-tab_parent = Notebook(window) 
-tabPdf = tk.Frame(tab_parent)
-tabCompare = tk.Frame(tab_parent)
-
-
 window.title("BudgetApp") 
 window.geometry("600x200") # size of the window when it opens
 #window.minsize(width=600, height=600) # you can define the minimum size of the
                           #window like this
 window.resizable(width="false", height="false") # change to false if you want to prevent resizing
 
+"""
+    Tabs
+"""
+tab_parent = Notebook(window) 
+tabPdf = tk.Frame(tab_parent)
+tabCompare = tk.Frame(tab_parent)
 
-# WIDGETS
+
+"""
+    Widgets
+"""
 frame_header = tk.Frame(tabPdf, borderwidth=0, pady=2)
 center_frame = tk.Frame(tabPdf, borderwidth=2, pady=5)
 bottom_frame = tk.Frame(tabPdf, borderwidth=2, pady=5)
