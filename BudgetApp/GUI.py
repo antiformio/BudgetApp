@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from tkinter.ttk import Progressbar
+from tkinter.ttk import Progressbar, Notebook
 import easygui
 import pandas as pd
 from time import strftime
@@ -9,6 +9,11 @@ import time
 
 
 window = tk.Tk() 
+
+#tab_parent = Notebook(window) 
+#tab1 = tk.Frame(tab_parent)
+#tab2 = tk.Frame(tab_parent)
+
 
 window.title("BudgetApp") 
 window.geometry("600x200") # size of the window when it opens
@@ -93,6 +98,8 @@ def run():
 
 gerarPdf = tk.Button(bottom_frame, text="Gerar PDF", command=run, bg='dark green', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
 
+
+#tab_parent.pack(expand = 1, fill = 'both')
 
 
 window.mainloop()

@@ -209,13 +209,15 @@ def run(path, email=None):
     dfGastosTotal = round(dfGastos['Valor'].sum(),2)
 
 
+    """
+        Saving (current month) DataFrame to S3
+    """
     saveObj = serialize.serialization()
     fileName = 'dfGastosTotal' + str(getMesActual())
     saveObj.dfToFileUpload(dfGastosOrdenados, fileName)
     new_df = saveObj.fileToDfDownload(fileName)
     
     
-
     axMaisCaros = render_mpl_table(df4maisCaros, header_columns=0, col_width=6.0)
     figMaisCaros = axMaisCaros.get_figure()
     figMaisCaros.suptitle('Top do mês', fontsize=19)
