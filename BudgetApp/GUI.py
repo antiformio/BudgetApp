@@ -22,12 +22,10 @@ frame_header = tk.Frame(window, borderwidth=0, pady=2)
 center_frame = tk.Frame(window, borderwidth=2, pady=5)
 bottom_frame = tk.Frame(window, borderwidth=2, pady=5)
 progress_frame = tk.Frame(window, borderwidth=2, pady=5)
-close_frame = tk.Frame(window, borderwidth=2, pady=5)
 frame_header.grid(row=0, column=0)
 center_frame.grid(row=1, column=0)
 bottom_frame.grid(row=2, column=0)
 progress_frame.grid(row=3, column=0)
-close_frame.grid(row=4, column=0)
 
 
 header = tk.Label(frame_header, text = "Budget APP", bg='grey', fg='black', height='3', width='43', font=("Helvetica 17 bold"))
@@ -70,6 +68,7 @@ def progressBar():
     progress['value'] = 80
     window.update_idletasks()
     time.sleep(1) 
+
     progress['value'] = 100
     progress.destroy()
     tk.Button(progress_frame, text="Fechar", command=closeWindow, bg='dark red', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
@@ -99,6 +98,6 @@ gerarPdf = tk.Button(bottom_frame, text="Gerar PDF", command=run, bg='dark green
 window.mainloop()
 
 # TODO: list of emails editable (dialog for entering)
-# Serialization (pickle)
+# TODO : Serialization (pickle)
 
 

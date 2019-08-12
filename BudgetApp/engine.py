@@ -208,16 +208,13 @@ def run(path, email=None):
     dfGastosOrdenados = dfGastos.sort_values('Valor', ascending=False)
     dfGastosTotal = round(dfGastos['Valor'].sum(),2)
 
-    # VER O UPLOAD, NAO ESTA A ESCREVER BEM O FICHEIRO...
-    #saveObj = serialize.serialization()
-    #fileName = 'dfGastosTotal' + str(getMesActual())
-    #saveObj.dfToFileUpload(dfGastosTotal, fileName)
-    #new_df = saveObj.fileToDfDownload(fileName)
-    #
-    #
-    #print(new_df)
 
-
+    saveObj = serialize.serialization()
+    fileName = 'dfGastosTotal' + str(getMesActual())
+    saveObj.dfToFileUpload(dfGastosOrdenados, fileName)
+    new_df = saveObj.fileToDfDownload(fileName)
+    
+    
 
     axMaisCaros = render_mpl_table(df4maisCaros, header_columns=0, col_width=6.0)
     figMaisCaros = axMaisCaros.get_figure()

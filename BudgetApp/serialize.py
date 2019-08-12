@@ -20,10 +20,8 @@ class serialization():
         self.s3 = boto3.client('s3', aws_access_key_id=self.ACCESS_KEY , aws_secret_access_key=self.SECRET_KEY)
 
     def dfToFileUpload(self, df, fileName):
-        outfile = open(fileName,'wb')
-        pickle.dump(df,outfile)
+        df.to_pickle(fileName)
         self.AWSupload(fileName, fileName)
-        outfile.close()
         os.remove(fileName)
 
     def fileToDfDownload(self, fileName):
@@ -31,6 +29,7 @@ class serialization():
         infile = open(fileName,'rb')
         new_df = pickle.load(infile)
         infile.close()
+        os.remove(fileName)
         return new_df
 
     def AWSupload(self, local_file, s3_file):
