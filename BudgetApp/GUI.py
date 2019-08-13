@@ -4,8 +4,12 @@ from tkinter.ttk import Progressbar, Notebook, OptionMenu
 import easygui
 import pandas as pd
 from time import strftime
+import datetime
 import engine
-import time, serialize
+import time, serialize, re
+
+FULL_MONTHS = {1: 'Janeiro' , 2: 'Fevereiro', 3: 'Março', 4: 'Abril',  5: 'Maio',  6: 'Junho',
+          7: 'Julho', 8: 'Agosto', 9: 'Setembro', 10: 'Outubro', 11: 'Novembro', 12: 'Dezembro'}
 
 
 window = tk.Tk() 
@@ -144,13 +148,25 @@ frame_main_2 = tk.Frame(center_frame_tab2, borderwidth=2)
 
 ### DropDown menu for frame_main_2
 monthVar = tk.StringVar(window)
-################################################# PASSAR PARA O ENGINE... NÃO FAZ SENTIDO SER A GUI A INSTANCIAR O SERIALIZE...
 readFiles = serialize.serialization()
 menuOptions = readFiles.getFilesOnBucket('dfGastos')
-optionMonth = OptionMenu(frame_main_2, monthVar, *menuOptions).pack(side='right') ################################################################## Está a perder opçoes !!!
+
+### Transforma o nome dos dataFrames em Meses
+def fileToMonth(list):
+    result = []
+    for mes in list:
+        mesAsString = re.findall(r'\d+', mes)
+        month = FULL_MONTHS.get(int(mesAsString[0]))
+        if month in FULL_MONTHS.values():
+            result.append(month)
+    return result
+    
+menuMonths = fileToMonth(menuOptions)
+monthVar.set('Mes')
+optionMonth = OptionMenu(frame_main_2, monthVar, 'Seleccione o mês',  *menuMonths).pack(side='right') 
 
 ### Label and dropdown menu packed on the same frame
-monthLabel = tk.Label(frame_main_2, text = "Seleccione o mês para comparar: ", font=("Helvetica 9 bold")).pack(side='left')
+monthLabel = tk.Label(frame_main_2, text = "Mês: ", font=("Helvetica 9 bold")).pack(side='left')
 frame_main_2.pack(fill='x', pady=2)
 
 """
