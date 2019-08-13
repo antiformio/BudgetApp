@@ -163,11 +163,14 @@ def fileToMonth(list):
     
 menuMonths = fileToMonth(menuOptions)
 monthVar.set('Mes')
-optionMonth = OptionMenu(frame_main_2, monthVar, 'Seleccione o mês',  *menuMonths).pack(side='right') 
 
 ### Label and dropdown menu packed on the same frame
 monthLabel = tk.Label(frame_main_2, text = "Mês: ", font=("Helvetica 9 bold")).pack(side='left')
+optionMonth = OptionMenu(frame_main_2, monthVar, 'Seleccione o mês',  *menuMonths).pack(side='left') 
+tk.Button(frame_main_2, text="OK", command=None, bg='dark green', fg='white', relief='raised', width=10, font=('Helvetica 7 bold')).pack(side='left')
 frame_main_2.pack(fill='x', pady=2)
+
+
 
 """
     MainLoop
