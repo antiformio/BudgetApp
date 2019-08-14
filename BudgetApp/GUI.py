@@ -57,7 +57,7 @@ frame_main_1 = tk.Frame(center_frame, borderwidth=2)
 pdfPathLabel = tk.Label(frame_main_1, text = "Destino do PDF: ", font=("Helvetica 9 bold")).pack(side='left')
 pathDestiny = tk.StringVar()
 
-### Browsefile dialog
+### Browsefile dialog ################################################################################################################## NEEDS DEBUG... CONCATENATING STRING
 def browseButton():
     filename = filedialog.askdirectory()
     pathDestiny.set(filename)
@@ -123,8 +123,6 @@ def run():
     Bottom frame (TAB1): generate PDF button
 """
 tk.Button(bottom_frame, text="Gerar PDF", command=run, bg='dark green', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
-
-
 tab_parent.pack(expand = 1, fill = 'both')
 
 
@@ -164,10 +162,18 @@ def fileToMonth(list):
 menuMonths = fileToMonth(menuOptions)
 monthVar.set('Mes')
 
+
+
+def compareExpenses(): ###################################################################################################################### NEEDS DEBUG. CONCATENATING STRINGS...
+    window.geometry("600x840")
+    chosenMonth = monthVar.get()
+    window.update_idletasks()
+    chosenMonthLabel = tk.Label(bottom_frame_tab2, text = chosenMonth, font=("Helvetica 9 bold")).pack(side='left')
+
 ### Label and dropdown menu packed on the same frame
 monthLabel = tk.Label(frame_main_2, text = "Mês: ", font=("Helvetica 9 bold")).pack(side='left')
 optionMonth = OptionMenu(frame_main_2, monthVar, 'Seleccione o mês',  *menuMonths).pack(side='left') 
-tk.Button(frame_main_2, text="OK", command=None, bg='dark green', fg='white', relief='raised', width=10, font=('Helvetica 7 bold')).pack(side='left')
+tk.Button(frame_main_2, text="OK", command=compareExpenses, bg='dark green', fg='white', relief='raised', width=10, font=('Helvetica 7 bold')).pack(side='left')
 frame_main_2.pack(fill='x', pady=2)
 
 
