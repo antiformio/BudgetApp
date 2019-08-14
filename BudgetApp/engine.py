@@ -213,9 +213,12 @@ def run(path, email=None):
         Saving (current month) DataFrame to S3
     """
     saveObj = serialize.serialization()
-    fileName = 'dfGastosTotal' + str(getMesActual())
-    saveObj.dfToFileUpload(dfGastosOrdenados, fileName)
-    new_df = saveObj.fileToDfDownload(fileName)
+    fileNameOrdenados = 'dfGastosOrdenados' + str(getMesActual())
+    saveObj.dfToFileUpload(dfGastosOrdenados, fileNameOrdenados)
+    fileNameTotal = 'dfGastosTotal' + str(getMesActual())
+    saveObj.dfToFileUpload(dfGastos,fileNameTotal)
+
+    #new_dfGastosOrdenados = saveObj.fileToDfDownload(fileName)
     
     
     axMaisCaros = render_mpl_table(df4maisCaros, header_columns=0, col_width=6.0)

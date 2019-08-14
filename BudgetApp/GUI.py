@@ -149,7 +149,7 @@ frame_main_2 = tk.Frame(center_frame_tab2, borderwidth=2)
 ### DropDown menu for frame_main_2
 monthVar = tk.StringVar(window)
 readFiles = serialize.serialization()
-menuOptions = readFiles.getFilesOnBucket('dfGastos')
+menuOptions = readFiles.getFilesOnBucket('dfGastosOrdenados')
 
 ### Transforma o nome dos dataFrames em Meses
 def fileToMonth(list):
