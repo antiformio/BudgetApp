@@ -57,12 +57,13 @@ frame_main_1 = tk.Frame(center_frame, borderwidth=2)
 pdfPathLabel = tk.Label(frame_main_1, text = "Destino do PDF: ", font=("Helvetica 9 bold")).pack(side='left')
 pathDestiny = tk.StringVar()
 
-### Browsefile dialog ################################################################################################################## NEEDS DEBUG... CONCATENATING STRING
+pathLabel = tk.Label(frame_main_1, text = '')
+### Browsefile dialog
 def browseButton():
     filename = filedialog.askdirectory()
     pathDestiny.set(filename)
-    text = ''
-    tk.Label(frame_main_1, text = filename[:45]).pack(side='left')
+    pathLabel.config(text = filename[:45])
+    pathLabel.pack(side='left')
     return filename
 
 ### Button for calling browse dialog and packing of center frame
@@ -163,8 +164,11 @@ menuMonths = fileToMonth(menuOptions)
 monthVar.set('Mes')
 
 
-
-
+monthExpense = tk.Label(bottom_frame_tab2, text = 'mes', font=("Helvetica 9 bold"))
+def buildDisplayComparsion(dataFrame):
+    print(dataFrame['Mes Escolhido'][0])
+    monthExpense.config(text=dataFrame['Mes Escolhido'][0]) 
+    monthExpense.pack(side='left')
 
 def compareExpenses():
     window.geometry("600x840")
@@ -172,10 +176,13 @@ def compareExpenses():
     fileToDownload = [k for k,v in FULL_MONTHS.items() if v == mes]
     nameOfFile = f"dfGastosOrdenados{str(fileToDownload[0])}"
     dfMesAnterior = readFiles.fileToDfDownload(nameOfFile)
+    dfMesActual = readFiles.fileToDfDownload(f"dfGastosOrdenados{str(engine.getMesActual())}")
+    dfComparsion = engine.compareMonths(dfMesAnterior, dfMesActual)
+    buildDisplayComparsion(dfComparsion)
+ 
     
 
 ### Label and dropdown menu packed on the same frame
-monthLabel = tk.Label(frame_main_2, text = "Mês: ", font=("Helvetica 9 bold")).pack(side='left')
 optionMonth = OptionMenu(frame_main_2, monthVar, 'Seleccione o mês',  *menuMonths).pack(side='left') 
 tk.Button(frame_main_2, text="OK", command=compareExpenses, bg='dark green', fg='white', relief='raised', width=10, font=('Helvetica 7 bold')).pack(side='left')
 

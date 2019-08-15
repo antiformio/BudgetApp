@@ -38,9 +38,9 @@ def getMesActual():
     return datetime.now().month - 1
 
 def getRawDataByAccount(gc, tipo):
-        book = openBook(gc, tipo + str(getMesActual()))
-        sheet = getSheet(book, "Sheet1")
-        return sheet.get_all_values()
+    book = openBook(gc, tipo + str(getMesActual()))
+    sheet = getSheet(book, "Sheet1")
+    return sheet.get_all_values()
 
 def populateDic(rawList):
     dicOutgoing = {}
@@ -112,8 +112,6 @@ def graficoPieNovo(df):
                fontsize=6)
     plt.tight_layout()
     fig.suptitle('Distribuição de gastos', size=19)
-    #plt.show()
-
     return fig
 
 def render_mpl_table(data, col_width=3.0, row_height=0.625, font_size=12,
@@ -161,6 +159,14 @@ def sendEMail(filename, tipo):
     conn.login('aws.py.servidor@gmail.com', 'ketooketyr')
     conn.sendmail(mail['From'], destino, mail.as_string())
     conn.quit()
+
+def compareMonths(dfPrevious, dfActual):
+    data = np.array([['','Mes Escolhido','Ultimo Mes'],
+                ['Gasto total',round(dfPrevious['Valor'].sum(),2),round(dfActual['Valor'].sum(),2)]])
+    return pd.DataFrame(data=data[1:,1:],
+                  index=data[1:,0],
+                  columns=data[0,1:])
+
 
 def run(path, email=None):
     gc = auth()
@@ -215,11 +221,6 @@ def run(path, email=None):
     saveObj = serialize.serialization()
     fileNameOrdenados = 'dfGastosOrdenados' + str(getMesActual())
     saveObj.dfToFileUpload(dfGastosOrdenados, fileNameOrdenados)
-    fileNameTotal = 'dfGastosTotal' + str(getMesActual())
-    saveObj.dfToFileUpload(dfGastos,fileNameTotal)
-
-    #new_dfGastosOrdenados = saveObj.fileToDfDownload(fileName)
-    
     
     axMaisCaros = render_mpl_table(df4maisCaros, header_columns=0, col_width=6.0)
     figMaisCaros = axMaisCaros.get_figure()
