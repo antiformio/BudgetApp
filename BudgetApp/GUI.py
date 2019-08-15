@@ -14,7 +14,7 @@ FULL_MONTHS = {1: 'Janeiro' , 2: 'Fevereiro', 3: 'Março', 4: 'Abril',  5: 'Maio
 
 window = tk.Tk() 
 window.title("BudgetApp") 
-window.geometry("600x200+570+400") # size of the window when it opens
+window.geometry("600x200+570+150") # size of the window when it opens
 #window.minsize(width=600, height=600) # you can define the minimum size of the
                           #window like this
 window.resizable(width="false", height="false") # change to false if you want to prevent resizing
@@ -164,16 +164,21 @@ monthVar.set('Mes')
 
 
 
-def compareExpenses(): ###################################################################################################################### NEEDS DEBUG. CONCATENATING STRINGS...
+
+
+def compareExpenses():
     window.geometry("600x840")
-    chosenMonth = monthVar.get()
-    window.update_idletasks()
-    chosenMonthLabel = tk.Label(bottom_frame_tab2, text = chosenMonth, font=("Helvetica 9 bold")).pack(side='left')
+    mes = str(monthVar.get())
+    fileToDownload = [k for k,v in FULL_MONTHS.items() if v == mes]
+    nameOfFile = f"dfGastosOrdenados{str(fileToDownload[0])}"
+    dfMesAnterior = readFiles.fileToDfDownload(nameOfFile)
+    
 
 ### Label and dropdown menu packed on the same frame
 monthLabel = tk.Label(frame_main_2, text = "Mês: ", font=("Helvetica 9 bold")).pack(side='left')
 optionMonth = OptionMenu(frame_main_2, monthVar, 'Seleccione o mês',  *menuMonths).pack(side='left') 
 tk.Button(frame_main_2, text="OK", command=compareExpenses, bg='dark green', fg='white', relief='raised', width=10, font=('Helvetica 7 bold')).pack(side='left')
+
 frame_main_2.pack(fill='x', pady=2)
 
 
