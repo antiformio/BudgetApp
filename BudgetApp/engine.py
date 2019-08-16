@@ -138,8 +138,8 @@ def render_mpl_table(data, col_width=3.0, row_height=0.625, font_size=12,
             cell.set_facecolor(row_colors[k[0]%len(row_colors) ])
     return ax
 
-def sendEMail(filename, tipo):
-    destino = ['fjnmgm@gmail.com']
+def sendEMail(filename, tipo, listaEmails):
+    destino = listaEmails
     mail = MIMEMultipart()
     mail['From'] = 'aws.py.servidor@gmail.com'
     mail['To'] = ", ".join(destino)
@@ -168,7 +168,7 @@ def compareMonths(dfPrevious, dfActual):
                   columns=data[0,1:])
 
 
-def run(path, email=None):
+def run(path, email=None, listaEmails=None):
     gc = auth()
 
     """
@@ -242,4 +242,4 @@ def run(path, email=None):
     filename = path + '\\' + 'AnáliseGastos' + str(getMesActual())+'.pdf'
     # Ultimo parametro pode ser Gastos ou Income
     if email:
-        sendEMail(filename, 'Gastos')
+        sendEMail(filename, 'Gastos', listaEmails)

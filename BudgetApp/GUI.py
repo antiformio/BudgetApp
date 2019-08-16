@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, simpledialog
 from tkinter.ttk import Progressbar, Notebook, OptionMenu
 import easygui
 import pandas as pd
@@ -99,8 +99,11 @@ def progressBar():
     progress.destroy()
     tk.Button(progress_frame, text="Fechar", command=closeWindow, bg='dark red', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
 
+def getEmails():
+    askEmails = simpledialog.askstring("Introduza email(s)","Por favor introduzir emails separados por ','", parent = window)
+    listEmails = askEmails.split(",")
+    return listEmails
 
-    
 """
     Main workflow
 """
@@ -109,11 +112,12 @@ def run():
     if not pathDestiny.get():
         messagebox.showwarning("Informação", "Especifique o caminho de destino do PDF !")
     else:    
-        result = messagebox.askquestion("E-mail","Pretende enviar email para giovanna.magnante@gmail.com e fjnmgm@gmail.com ?")
+        result = messagebox.askquestion("E-mail","Pretende enviar email da análise ?")
         if result == 'yes':
-            engine.run(pathDestiny.get().replace('/','\\'), True)
+            emails = getEmails()
+            engine.run(pathDestiny.get().replace('/','\\'), True, emails)
             progressBar()
-            messagebox.showinfo("E-mail enviado", "O email foi enviado para giovanna.magnante@gmail.com e fjnmgm@gmail.com")
+            messagebox.showinfo("E-mail enviado", "O email foi enviado")
         else: 
             engine.run(pathDestiny.get().replace('/','\\'))
             progressBar()
@@ -165,9 +169,9 @@ def fileToMonth(list):
 menuMonths = fileToMonth(menuOptions)
 monthVar.set('Mes')
 
-chosenMonthExpense = tk.Label(frame_bottom_2, text = 'mes', font=("Helvetica 9 bold"))
-currentMonthExpense = tk.Label(frame_bottom_2, text = 'mes', font=("Helvetica 9 bold"))
-expenseDifference = tk.Label(frame_bottom_2, text = 'mes', font=("Helvetica 9 bold"))
+chosenMonthExpense = tk.Label(frame_bottom_2, text = '', font=("Helvetica 9 bold"))
+currentMonthExpense = tk.Label(frame_bottom_2, text = '', font=("Helvetica 9 bold"))
+expenseDifference = tk.Label(frame_bottom_2, text = '', font=("Helvetica 9 bold"))
 def buildDisplayComparsion(dataFrame):
     print(dataFrame['Mes Escolhido'][0])
     chosenMonthExpense.config(text=f"{monthVar.get()} \n {dataFrame['Mes Escolhido'][0]}") 
