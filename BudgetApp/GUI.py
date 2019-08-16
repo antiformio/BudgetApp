@@ -190,48 +190,30 @@ monthVar.set('Mes')
 ############################################################################################################################################################
 supermercadoChosen = tk.Label(supermarketComparsionFrame, text = '', font=("Helvetica 9 bold"))
 supermercadoCurrent = tk.Label(supermarketComparsionFrame, text = '', font=("Helvetica 9 bold"))
-expenseSupermerketDifference = tk.Label(supermarketComparsionFrame, text = '', font=("Helvetica 9 bold"))
-def detailSupermarket(dfMesAnterior, dfMesActual):
-    valorSupermercadoPassado = dfMesAnterior.loc[dfMesAnterior['Entidade']=='SUPERMERCADOS', ['Valor']].values[0][0]
-    valorSupermercadoCurrente = dfMesActual.loc[dfMesActual['Entidade']=='SUPERMERCADOS', ['Valor']].values[0][0]
-    supermercadoChosen.config(text=f"Supermercados em {monthVar.get()} \n {valorSupermercadoPassado}") 
-    supermercadoChosen.pack(side='left')
-    supermercadoCurrent.config(text=f"Supermercados em {FULL_MONTHS.get(engine.getMesActual())} \n {valorSupermercadoCurrente}") 
-    supermercadoCurrent.pack(side='left')
-    
-    if float(valorSupermercadoPassado) > float(valorSupermercadoCurrente):
-        diference = valorSupermercadoPassado - valorSupermercadoCurrente
-        expenseSupermerketDifference.config(fg='green')
-        expenseSupermerketDifference.config(text=f"Diferença: \n {diference} Euros") 
-        expenseSupermerketDifference.pack(side='left')
-    else:
-        diference = valorSupermercadoCurrente - valorSupermercadoPassado
-        expenseSupermerketDifference.config(fg='red')
-        expenseSupermerketDifference.config(text=f"Diferença: \n {diference} Euros")
-        expenseSupermerketDifference.pack(side='left')
-
-
+supermercadoDifference = tk.Label(supermarketComparsionFrame, text = '', font=("Helvetica 9 bold"))
 bicingChosen = tk.Label(bicingComparsionFrame, text = '', font=("Helvetica 9 bold"))
 bicingCurrent = tk.Label(bicingComparsionFrame, text = '', font=("Helvetica 9 bold"))
 bicingDifference = tk.Label(bicingComparsionFrame, text = '', font=("Helvetica 9 bold"))
-def detailBicing(dfMesAnterior, dfMesActual):
-    valorBicingPassado = dfMesAnterior.loc[dfMesAnterior['Entidade']=='BICING-BARCELONA', ['Valor']].values[0][0]
-    valorBicingCurrente = dfMesActual.loc[dfMesActual['Entidade']=='BICING-BARCELONA', ['Valor']].values[0][0]
-    bicingChosen.config(text=f"Bici em {monthVar.get()} \n {valorBicingPassado}") 
-    bicingChosen.pack(side='left')
-    bicingCurrent.config(text=f"Bici em {FULL_MONTHS.get(engine.getMesActual())} \n {valorBicingCurrente}") 
-    bicingCurrent.pack(side='left')
+
+
+def buildComparsion(dfMesAnterior, dfMesActual, chosen, current,difference, entity):
+    valorPassado = dfMesAnterior.loc[dfMesAnterior['Entidade']==entity, ['Valor']].values[0][0]
+    valorCurrente = dfMesActual.loc[dfMesActual['Entidade']==entity, ['Valor']].values[0][0]
+    chosen.config(text=f"{entity} em {monthVar.get()} \n {valorPassado}") 
+    chosen.pack(side='left')
+    current.config(text=f"{entity} em {FULL_MONTHS.get(engine.getMesActual())} \n {valorCurrente}") 
+    current.pack(side='left')
     
-    if float(valorBicingPassado) > float(valorBicingCurrente):
-        diference = round((valorBicingPassado - valorBicingCurrente),2)
-        bicingDifference.config(fg='green')
-        bicingDifference.config(text=f"Diferença: \n {diference} Euros") 
-        bicingDifference.pack(side='left')
+    if float(valorPassado) > float(valorCurrente):
+        diference = round((valorPassado - valorCurrente),2)
+        difference.config(fg='green')
+        difference.config(text=f"Diferença: \n {diference} Euros") 
+        difference.pack(side='left')
     else:
-        diference = round((valorBicingCurrente - valorBicingPassado),2)
-        bicingDifference.config(fg='red')
-        bicingDifference.config(text=f"Diferença: \n {diference} Euros")
-        bicingDifference.pack(side='left')
+        diference = round((valorCurrente - valorPassado),2)
+        difference.config(fg='red')
+        difference.config(text=f"Diferença: \n {diference} Euros")
+        difference.pack(side='left')
 
 
 chosenMonthExpense = tk.Label(totalsComparsionFrame, text = '', font=("Helvetica 9 bold"))
@@ -268,10 +250,8 @@ def detailsTotal():
 """
 def buildDisplayComparsionDetailed():
     dfMesAnterior, dfMesActual = detailsTotal()
-    detailSupermarket(dfMesAnterior, dfMesActual)
-    print(dfMesAnterior)
-    print(dfMesActual)
-    detailBicing(dfMesAnterior, dfMesActual)
+    buildComparsion(dfMesAnterior, dfMesActual,supermercadoChosen, supermercadoCurrent, supermercadoDifference, 'SUPERMERCADOS')
+    buildComparsion(dfMesAnterior, dfMesActual,bicingChosen, bicingCurrent,bicingDifference,  'BICING-BARCELONA' )
     
 ###########################################################################################################################################################
 
