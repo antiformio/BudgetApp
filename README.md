@@ -8,7 +8,9 @@ The analysis is made recuring to pandas, matplotlib and numpy.
 The interface is built with tkinter.
 
 # App Preview
-![alt-text](BudgetApp/budgetapp.PNG "Application preview")
+![alt-text](BudgetApp/1.PNG "Application preview")
+![alt-text](BudgetApp/2.PNG "Application preview")
+![alt-text](BudgetApp/3.PNG "Application preview")
 
 # Analysis Preview
 ![alt-text](BudgetApp/pdfPage1.PNG "Analysis1")
