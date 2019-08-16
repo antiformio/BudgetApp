@@ -185,8 +185,6 @@ monthVar.set('Mes')
 
 ############################################################################################################################################################
 #    Display the comparsion between expenses 
-#        detailsTotal - total expense comparsion, first frame
-#        detailSupermarket - expense in supermarkets, second frame
 ############################################################################################################################################################
 supermercadoChosen = tk.Label(supermarketComparsionFrame, text = '', font=("Helvetica 9 bold"))
 supermercadoCurrent = tk.Label(supermarketComparsionFrame, text = '', font=("Helvetica 9 bold"))
@@ -194,33 +192,29 @@ supermercadoDifference = tk.Label(supermarketComparsionFrame, text = '', font=("
 bicingChosen = tk.Label(bicingComparsionFrame, text = '', font=("Helvetica 9 bold"))
 bicingCurrent = tk.Label(bicingComparsionFrame, text = '', font=("Helvetica 9 bold"))
 bicingDifference = tk.Label(bicingComparsionFrame, text = '', font=("Helvetica 9 bold"))
-
-
-def buildComparsion(dfMesAnterior, dfMesActual, chosen, current,difference, entity):
-    valorPassado = dfMesAnterior.loc[dfMesAnterior['Entidade']==entity, ['Valor']].values[0][0]
-    valorCurrente = dfMesActual.loc[dfMesActual['Entidade']==entity, ['Valor']].values[0][0]
-    chosen.config(text=f"{entity} em {monthVar.get()} \n {valorPassado}") 
-    chosen.pack(side='left')
-    current.config(text=f"{entity} em {FULL_MONTHS.get(engine.getMesActual())} \n {valorCurrente}") 
-    current.pack(side='left')
-    
-    if float(valorPassado) > float(valorCurrente):
-        diference = round((valorPassado - valorCurrente),2)
-        difference.config(fg='green')
-        difference.config(text=f"Diferença: \n {diference} Euros") 
-        difference.pack(side='left')
-    else:
-        diference = round((valorCurrente - valorPassado),2)
-        difference.config(fg='red')
-        difference.config(text=f"Diferença: \n {diference} Euros")
-        difference.pack(side='left')
-
-
 chosenMonthExpense = tk.Label(totalsComparsionFrame, text = '', font=("Helvetica 9 bold"))
 currentMonthExpense = tk.Label(totalsComparsionFrame, text = '', font=("Helvetica 9 bold"))
 expenseDifference = tk.Label(totalsComparsionFrame, text = '', font=("Helvetica 9 bold"))
+
+def buildComparsion(dfMesAnterior, dfMesActual, chosenLabel, currentLabel ,differenceLabel, entity):
+    valorPassado = dfMesAnterior.loc[dfMesAnterior['Entidade']==entity, ['Valor']].values[0][0]
+    valorCurrente = dfMesActual.loc[dfMesActual['Entidade']==entity, ['Valor']].values[0][0]
+    chosenLabel.config(text=f"{entity} em {monthVar.get()} \n {valorPassado}")
+    chosenLabel.pack(side='left')
+    currentLabel.config(text=f"{FULL_MONTHS.get(engine.getMesActual())} \n {valorCurrente}") 
+    currentLabel.pack(side='left')
+    
+    if float(valorPassado) > float(valorCurrente):
+        diference = round((valorPassado - valorCurrente),2)
+        differenceLabel.config(text=f"Diferença: \n {diference} Euros", fg='green') 
+        differenceLabel.pack(side='left')
+    else:
+        diference = round((valorCurrente - valorPassado),2)
+        differenceLabel.config(text=f"Diferença: \n {diference} Euros", fg='red')
+        differenceLabel.pack(side='left')
+
 def detailsTotal():
-    window.geometry("600x540")
+    window.geometry("600x340")
     mes = str(monthVar.get())
     fileToDownload = [k for k,v in FULL_MONTHS.items() if v == mes]
     nameOfFile = f"dfGastosOrdenados{str(fileToDownload[0])}"
@@ -235,13 +229,11 @@ def detailsTotal():
     
     if float(dfComparsion['Mes Escolhido'][0]) > float(dfComparsion['Ultimo Mes'][0]):
         diference = float(dfComparsion['Mes Escolhido'][0]) - float(dfComparsion['Ultimo Mes'][0])
-        expenseDifference.config(fg='green')
-        expenseDifference.config(text=diference) 
+        expenseDifference.config(text=diference, fg='green') 
         expenseDifference.pack(side='left')
     else: 
-        expenseDifference.config(fg='red')
         diference = round(float(dfComparsion['Ultimo Mes'][0]) - float(dfComparsion['Mes Escolhido'][0]), 2)
-        expenseDifference.config(text=f"Diferença: \n {diference} Euros") 
+        expenseDifference.config(text=f"Diferença: \n {diference} Euros",fg='red') 
         expenseDifference.pack(side='left')
     return dfMesAnterior,dfMesActual
 
