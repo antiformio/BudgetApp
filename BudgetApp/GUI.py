@@ -67,7 +67,7 @@ def browseButton():
     return filename
 
 ### Button for calling browse dialog and packing of center frame
-buttonPath = tk.Button(frame_main_1, text="Destino", command=browseButton).pack(side='left')
+buttonPath = tk.Button(frame_main_1, text="Abrir", command=browseButton).pack(side='left')
 frame_main_1.pack(fill='x', pady=2)
 
 """
@@ -127,8 +127,14 @@ def run():
 """
     Bottom frame (TAB1): generate PDF button
 """
-tk.Button(bottom_frame, text="Gerar PDF", command=run, bg='dark green', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
+tk.Button(bottom_frame, text=f"Gerar PDF - {FULL_MONTHS.get(engine.getMesActual())}", command=run, bg='dark green', fg='white', relief='raised', width=20, font=('Helvetica 9 bold')).pack(side='left')
 tab_parent.pack(expand = 1, fill = 'both')
+
+
+
+
+
+
 
 
 
@@ -139,9 +145,11 @@ tab_parent.pack(expand = 1, fill = 'both')
 frame_header_tab2 = tk.Frame(tabCompare, borderwidth=0, pady=2)
 center_frame_tab2 = tk.Frame(tabCompare, borderwidth=2, pady=5)
 bottom_frame_tab2 = tk.Frame(tabCompare, borderwidth=2, pady=5)
+detailedComparsion_frame_tab2 = tk.Frame(tabCompare, borderwidth=2, pady=5)
 frame_header_tab2.grid(row=0, column=0)
 center_frame_tab2.grid(row=1, column=0)
 bottom_frame_tab2.grid(row=2, column=0)
+detailedComparsion_frame_tab2.grid(row=3, column=0)
 
 header_tab2 = tk.Label(frame_header_tab2, text = "Comparação de gastos", bg='grey', fg='black', height='1', width='43', font=("Helvetica 17 bold"))
 header_tab2.grid(row=0, column=0)
@@ -150,6 +158,8 @@ header_tab2.grid(row=0, column=0)
 frame_main_2 = tk.Frame(center_frame_tab2, borderwidth=2)
 ### Bottom main 2 to pack dataframes expenses on the same frame
 frame_bottom_2 = tk.Frame(bottom_frame_tab2, borderwidth=2)
+### Comparsion frame to pack detailed expenses comparsion
+frame_detailed_2 = tk.Frame(detailedComparsion_frame_tab2, borderwidth=2)
 
 ### DropDown menu for frame_main_2
 monthVar = tk.StringVar(window)
@@ -173,14 +183,14 @@ chosenMonthExpense = tk.Label(frame_bottom_2, text = '', font=("Helvetica 9 bold
 currentMonthExpense = tk.Label(frame_bottom_2, text = '', font=("Helvetica 9 bold"))
 expenseDifference = tk.Label(frame_bottom_2, text = '', font=("Helvetica 9 bold"))
 def buildDisplayComparsion(dataFrame):
-    print(dataFrame['Mes Escolhido'][0])
     chosenMonthExpense.config(text=f"{monthVar.get()} \n {dataFrame['Mes Escolhido'][0]}") 
     chosenMonthExpense.pack(side='left')
-    currentMonthExpense.config(text=f"Ultimo Mês \n {dataFrame['Ultimo Mes'][0]}") 
+    currentMonthExpense.config(text=f"{FULL_MONTHS.get(engine.getMesActual())} \n {dataFrame['Ultimo Mes'][0]}") 
     currentMonthExpense.pack(side='left')
+    
     if float(dataFrame['Mes Escolhido'][0]) > float(dataFrame['Ultimo Mes'][0]):
-        expenseDifference.config(fg='green')
         diference = float(dataFrame['Mes Escolhido'][0]) - float(dataFrame['Ultimo Mes'][0])
+        expenseDifference.config(fg='green')
         expenseDifference.config(text=diference) 
         expenseDifference.pack(side='left')
     else: 
@@ -188,6 +198,29 @@ def buildDisplayComparsion(dataFrame):
         diference = round(float(dataFrame['Ultimo Mes'][0]) - float(dataFrame['Mes Escolhido'][0]), 2)
         expenseDifference.config(text=f"Diferença: \n {diference} Euros") 
         expenseDifference.pack(side='left')
+
+supermercadoChosen = tk.Label(frame_detailed_2, text = '', font=("Helvetica 9 bold"))
+supermercadoCurrent = tk.Label(frame_detailed_2, text = '', font=("Helvetica 9 bold"))
+expenseSupermerketDifference = tk.Label(frame_detailed_2, text = '', font=("Helvetica 9 bold"))
+def buildDisplayComparsionDetailed(dfMesAnterior, dfMesActual):
+    valorSupermercadoPassado = dfMesAnterior.loc[dfMesAnterior['Entidade']=='SUPERMERCADOS', ['Valor']].values[0][0]
+    valorSupermercadoCurrente = dfMesActual.loc[dfMesActual['Entidade']=='SUPERMERCADOS', ['Valor']].values[0][0]
+    supermercadoChosen.config(text=f"Supermercados em {monthVar.get()} \n {valorSupermercadoPassado}") 
+    supermercadoChosen.pack(side='left')
+    supermercadoCurrent.config(text=f"Supermercados em {FULL_MONTHS.get(engine.getMesActual())} \n {valorSupermercadoCurrente}") 
+    supermercadoCurrent.pack(side='left')
+    
+    if float(valorSupermercadoPassado) > float(valorSupermercadoCurrente):
+        diference = valorSupermercadoPassado - valorSupermercadoCurrente
+        expenseSupermerketDifference.config(fg='green')
+        expenseSupermerketDifference.config(text=f"Diferença: \n {diference} Euros") 
+        expenseSupermerketDifference.pack(side='left')
+    else:
+        diference = valorSupermercadoCurrente - valorSupermercadoPassado
+        expenseSupermerketDifference.config(fg='red')
+        expenseSupermerketDifference.config(text=f"Diferença: \n {diference} Euros")
+        expenseSupermerketDifference.pack(side='left')
+    
 
 def compareExpenses():
     window.geometry("600x540")
@@ -198,6 +231,8 @@ def compareExpenses():
     dfMesActual = readFiles.fileToDfDownload(f"dfGastosOrdenados{str(engine.getMesActual())}")
     dfComparsion = engine.compareMonths(dfMesAnterior, dfMesActual)
     buildDisplayComparsion(dfComparsion)
+    buildDisplayComparsionDetailed(dfMesAnterior, dfMesActual)
+
  
     
 
@@ -207,6 +242,7 @@ tk.Button(frame_main_2, text="OK", command=compareExpenses, bg='dark green', fg=
 
 frame_main_2.pack(fill='x', pady=2)
 frame_bottom_2.pack(fill='x', pady=2)
+frame_detailed_2.pack(fill='x', pady=2)
 
 
 

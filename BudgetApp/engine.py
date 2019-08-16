@@ -20,9 +20,9 @@ supermercados = ['BON AREA', 'MERCADONA', 'DIA', 'VUIT SANT PERE', 'LA NUPA', 'L
 renda = 'TEFASA GRUP IMMOBILIARI'
 telemoveis = ['ORANGE', 'CARD RECHARGING']
 ginasios = ['GCD-BARCELONA', 'MCFIT', 'LEISURE ORGANIZATION', 'GESTORA CLUBS DIR' ]
-internet = ['PEPEPHONE']
-electricidade = 'ENDESA'
-agua = 'AQUALOGY'
+internet = ['PEPEMOBILE']
+electricidade = ['ENDESA']
+agua = ['AQUALOGY', 'WATER', 'SUMINISTRO DE AG']
 
 
 def auth():
