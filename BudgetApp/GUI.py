@@ -143,23 +143,23 @@ tab_parent.pack(expand = 1, fill = 'both')
     Tab de comparação de gastos
 """
 headerFrame = tk.Frame(tabCompare, borderwidth=0, pady=2)
-center_frame_tab2 = tk.Frame(tabCompare, borderwidth=2, pady=5)
-bottom_frame_tab2 = tk.Frame(tabCompare, borderwidth=2, pady=5)
-detailedComparsion_frame_tab2 = tk.Frame(tabCompare, borderwidth=2, pady=5)
+frameOne = tk.Frame(tabCompare, borderwidth=2, pady=5)
+frameTwo = tk.Frame(tabCompare, borderwidth=2, pady=5)
+frameThree = tk.Frame(tabCompare, borderwidth=2, pady=5)
 headerFrame.grid(row=0, column=0)
-center_frame_tab2.grid(row=1, column=0)
-bottom_frame_tab2.grid(row=2, column=0)
-detailedComparsion_frame_tab2.grid(row=3, column=0)
+frameOne.grid(row=1, column=0)
+frameTwo.grid(row=2, column=0)
+frameThree.grid(row=3, column=0)
 
 headerFrameLabel = tk.Label(headerFrame, text = "Comparação de gastos", bg='grey', fg='black', height='1', width='43', font=("Helvetica 17 bold"))
 headerFrameLabel.grid(row=0, column=0)
 
 ### Frame main 2 to pack label and month dropdown on the same frame
-monthSelectionFrame = tk.Frame(center_frame_tab2, borderwidth=2)
+monthSelectionFrame = tk.Frame(frameOne, borderwidth=2)
 ### Bottom main 2 to pack dataframes expenses on the same frame
-totalsComparsionFrame = tk.Frame(bottom_frame_tab2, borderwidth=2)
+totalsComparsionFrame = tk.Frame(frameTwo, borderwidth=2)
 ### Comparsion frame to pack detailed expenses comparsion
-supermarketComparsionFrame = tk.Frame(detailedComparsion_frame_tab2, borderwidth=2)
+supermarketComparsionFrame = tk.Frame(frameThree, borderwidth=2)
 
 ### DropDown menu for frame_main_2
 monthVar = tk.StringVar(window)
