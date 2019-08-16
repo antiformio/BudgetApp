@@ -139,17 +139,19 @@ tab_parent.pack(expand = 1, fill = 'both')
 
 
 
-"""
-    Tab de comparação de gastos
-"""
+############################################################################################################################################################
+#    Tab de comparação de gastos
+############################################################################################################################################################
 headerFrame = tk.Frame(tabCompare, borderwidth=0, pady=2)
 frameOne = tk.Frame(tabCompare, borderwidth=2, pady=5)
 frameTwo = tk.Frame(tabCompare, borderwidth=2, pady=5)
 frameThree = tk.Frame(tabCompare, borderwidth=2, pady=5)
+frameFour = tk.Frame(tabCompare, borderwidth=2, pady=5)
 headerFrame.grid(row=0, column=0)
 frameOne.grid(row=1, column=0)
 frameTwo.grid(row=2, column=0)
 frameThree.grid(row=3, column=0)
+frameFour.grid(row=4, column=0)
 
 headerFrameLabel = tk.Label(headerFrame, text = "Comparação de gastos", bg='grey', fg='black', height='1', width='43', font=("Helvetica 17 bold"))
 headerFrameLabel.grid(row=0, column=0)
@@ -160,6 +162,7 @@ monthSelectionFrame = tk.Frame(frameOne, borderwidth=2)
 totalsComparsionFrame = tk.Frame(frameTwo, borderwidth=2)
 ### Comparsion frame to pack detailed expenses comparsion
 supermarketComparsionFrame = tk.Frame(frameThree, borderwidth=2)
+bicingComparsionFrame = tk.Frame(frameFour, borderwidth=2)
 
 ### DropDown menu for frame_main_2
 monthVar = tk.StringVar(window)
@@ -180,7 +183,11 @@ menuMonths = fileToMonth(menuOptions)
 monthVar.set('Mes')
 
 
-
+############################################################################################################################################################
+#    Display the comparsion between expenses 
+#        detailsTotal - total expense comparsion, first frame
+#        detailSupermarket - expense in supermarkets, second frame
+############################################################################################################################################################
 supermercadoChosen = tk.Label(supermarketComparsionFrame, text = '', font=("Helvetica 9 bold"))
 supermercadoCurrent = tk.Label(supermarketComparsionFrame, text = '', font=("Helvetica 9 bold"))
 expenseSupermerketDifference = tk.Label(supermarketComparsionFrame, text = '', font=("Helvetica 9 bold"))
@@ -202,6 +209,29 @@ def detailSupermarket(dfMesAnterior, dfMesActual):
         expenseSupermerketDifference.config(fg='red')
         expenseSupermerketDifference.config(text=f"Diferença: \n {diference} Euros")
         expenseSupermerketDifference.pack(side='left')
+
+
+bicingChosen = tk.Label(bicingComparsionFrame, text = '', font=("Helvetica 9 bold"))
+bicingCurrent = tk.Label(bicingComparsionFrame, text = '', font=("Helvetica 9 bold"))
+bicingDifference = tk.Label(bicingComparsionFrame, text = '', font=("Helvetica 9 bold"))
+def detailBicing(dfMesAnterior, dfMesActual):
+    valorBicingPassado = dfMesAnterior.loc[dfMesAnterior['Entidade']=='BICING-BARCELONA', ['Valor']].values[0][0]
+    valorBicingCurrente = dfMesActual.loc[dfMesActual['Entidade']=='BICING-BARCELONA', ['Valor']].values[0][0]
+    bicingChosen.config(text=f"Bici em {monthVar.get()} \n {valorBicingPassado}") 
+    bicingChosen.pack(side='left')
+    bicingCurrent.config(text=f"Bici em {FULL_MONTHS.get(engine.getMesActual())} \n {valorBicingCurrente}") 
+    bicingCurrent.pack(side='left')
+    
+    if float(valorBicingPassado) > float(valorBicingCurrente):
+        diference = round((valorBicingPassado - valorBicingCurrente),2)
+        bicingDifference.config(fg='green')
+        bicingDifference.config(text=f"Diferença: \n {diference} Euros") 
+        bicingDifference.pack(side='left')
+    else:
+        diference = round((valorBicingCurrente - valorBicingPassado),2)
+        bicingDifference.config(fg='red')
+        bicingDifference.config(text=f"Diferença: \n {diference} Euros")
+        bicingDifference.pack(side='left')
 
 
 chosenMonthExpense = tk.Label(totalsComparsionFrame, text = '', font=("Helvetica 9 bold"))
@@ -234,13 +264,16 @@ def detailsTotal():
     return dfMesAnterior,dfMesActual
 
 """
-    Display the comparsion between expenses
+    "main" function of the comparsion frames written above
 """
 def buildDisplayComparsionDetailed():
     dfMesAnterior, dfMesActual = detailsTotal()
     detailSupermarket(dfMesAnterior, dfMesActual)
+    print(dfMesAnterior)
+    print(dfMesActual)
+    detailBicing(dfMesAnterior, dfMesActual)
     
-
+###########################################################################################################################################################
 
 ### Label and dropdown menu packed on the same frame
 optionMonth = OptionMenu(monthSelectionFrame, monthVar, 'Seleccione o mês',  *menuMonths).pack(side='left') 
@@ -249,6 +282,7 @@ tk.Button(monthSelectionFrame, text="OK", command=buildDisplayComparsionDetailed
 monthSelectionFrame.pack(fill='x', pady=2)
 totalsComparsionFrame.pack(fill='x', pady=2)
 supermarketComparsionFrame.pack(fill='x', pady=2)
+bicingComparsionFrame.pack(fill='x', pady=2)
 
 
 
@@ -257,14 +291,5 @@ supermarketComparsionFrame.pack(fill='x', pady=2)
 """
 window.mainloop()
 
-# TODO: list of emails editable (dialog for entering)
-# TODO : Fix progressbar stalling
-
-"""
-    V2.0:
-        Serialization : Now we are able to compare total expense from previous months
-        Tabs: New tab for budget comparsion
-        ProgressBar: progress bar to controll PDF generation status
-"""
 
 

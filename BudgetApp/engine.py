@@ -16,8 +16,8 @@ import numpy.random.bounded_integers
 import numpy.random.entropy
 import serialize
 
-supermercados = ['BON AREA', 'MERCADONA', 'DIA', 'VUIT SANT PERE', 'LA NUPA', 'LIDL','SUPERMERCAT']
-renda = 'TEFASA GRUP IMMOBILIARI'
+supermercados = ['BON AREA','MERCADONA','DIA','VUIT SANT PERE','LA NUPA','LIDL','SUPERMERCAT','HONEY BEE']
+renda = ['TEFASA GRUP IMMOBILIARI']
 telemoveis = ['ORANGE', 'CARD RECHARGING']
 ginasios = ['GCD-BARCELONA', 'MCFIT', 'LEISURE ORGANIZATION', 'GESTORA CLUBS DIR' ]
 internet = ['PEPEMOBILE']
