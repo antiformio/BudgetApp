@@ -144,6 +144,8 @@ header_tab2.grid(row=0, column=0)
 
 ### Frame main 2 to pack label and month dropdown on the same frame
 frame_main_2 = tk.Frame(center_frame_tab2, borderwidth=2)
+### Bottom main 2 to pack dataframes expenses on the same frame
+frame_bottom_2 = tk.Frame(bottom_frame_tab2, borderwidth=2)
 
 ### DropDown menu for frame_main_2
 monthVar = tk.StringVar(window)
@@ -163,15 +165,28 @@ def fileToMonth(list):
 menuMonths = fileToMonth(menuOptions)
 monthVar.set('Mes')
 
-
-monthExpense = tk.Label(bottom_frame_tab2, text = 'mes', font=("Helvetica 9 bold"))
+chosenMonthExpense = tk.Label(frame_bottom_2, text = 'mes', font=("Helvetica 9 bold"))
+currentMonthExpense = tk.Label(frame_bottom_2, text = 'mes', font=("Helvetica 9 bold"))
+expenseDifference = tk.Label(frame_bottom_2, text = 'mes', font=("Helvetica 9 bold"))
 def buildDisplayComparsion(dataFrame):
     print(dataFrame['Mes Escolhido'][0])
-    monthExpense.config(text=dataFrame['Mes Escolhido'][0]) 
-    monthExpense.pack(side='left')
+    chosenMonthExpense.config(text=f"{monthVar.get()} \n {dataFrame['Mes Escolhido'][0]}") 
+    chosenMonthExpense.pack(side='left')
+    currentMonthExpense.config(text=f"Ultimo Mês \n {dataFrame['Ultimo Mes'][0]}") 
+    currentMonthExpense.pack(side='left')
+    if float(dataFrame['Mes Escolhido'][0]) > float(dataFrame['Ultimo Mes'][0]):
+        expenseDifference.config(fg='green')
+        diference = float(dataFrame['Mes Escolhido'][0]) - float(dataFrame['Ultimo Mes'][0])
+        expenseDifference.config(text=diference) 
+        expenseDifference.pack(side='left')
+    else: 
+        expenseDifference.config(fg='red')
+        diference = round(float(dataFrame['Ultimo Mes'][0]) - float(dataFrame['Mes Escolhido'][0]), 2)
+        expenseDifference.config(text=f"Diferença: \n {diference} Euros") 
+        expenseDifference.pack(side='left')
 
 def compareExpenses():
-    window.geometry("600x840")
+    window.geometry("600x540")
     mes = str(monthVar.get())
     fileToDownload = [k for k,v in FULL_MONTHS.items() if v == mes]
     nameOfFile = f"dfGastosOrdenados{str(fileToDownload[0])}"
@@ -187,6 +202,7 @@ optionMonth = OptionMenu(frame_main_2, monthVar, 'Seleccione o mês',  *menuMont
 tk.Button(frame_main_2, text="OK", command=compareExpenses, bg='dark green', fg='white', relief='raised', width=10, font=('Helvetica 7 bold')).pack(side='left')
 
 frame_main_2.pack(fill='x', pady=2)
+frame_bottom_2.pack(fill='x', pady=2)
 
 
 
